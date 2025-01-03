@@ -1,10 +1,30 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { styled } from "next-yak";
+import { colors } from "@/theme/colors.yak";
+
+const Button = styled.button`
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: black;
+  background-color: ${colors.primary.main};
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    /* background-color: var(--geist-cyan-dark); */
+  }
+`;
 
 export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <h1>Hola!</h1>
+        <Button>Hola mundo!</Button>
         <Image
           className={styles.logo}
           src="/next.svg"
