@@ -44,5 +44,6 @@ export const colors = {
     secondary: "#bdbdbd",
     disabled: "#757575",
     hint: "#9e9e9e",
+    contrast: "#000000",
   },
 };

@@ -10,5 +10,6 @@ export const LayoutHeader = styled.header`
     min-height: 140px;
     align-items: center;
     font-size: 2.4rem;
+    justify-content: space-between;
   }
 `;
