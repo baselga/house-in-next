@@ -2,7 +2,6 @@
 
 import { AArrowDownIcon, AArrowUpIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import * as S from "./styled";
 import { useCallback } from "react";
 
 const OrderButton = () => {
@@ -25,13 +24,13 @@ const OrderButton = () => {
   }, [order, pathname, router, searchParams]);
 
   return (
-    <S.Button onClick={handleClick}>
+    <button className="btn btn-square btn-ghost" onClick={handleClick}>
       {order === "asc" ? (
         <AArrowDownIcon size={24} />
       ) : (
         <AArrowUpIcon size={24} />
       )}
-    </S.Button>
+    </button>
   );
 };
 

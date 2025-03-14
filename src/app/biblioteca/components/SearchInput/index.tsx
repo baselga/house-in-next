@@ -4,9 +4,13 @@ import { SearchIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useDebouncedCallback } from "use-debounce";
-import * as S from "./sytled";
 
-function SearchInput(props: React.AllHTMLAttributes<HTMLInputElement> = {}) {
+type SearchInputProps = {
+  inputProps?: React.AllHTMLAttributes<HTMLInputElement>;
+} & React.AllHTMLAttributes<HTMLLabelElement>;
+
+function SearchInput(props: SearchInputProps = {}) {
+  const { className = "", inputProps = {}, ...rest } = props;
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -28,15 +32,16 @@ function SearchInput(props: React.AllHTMLAttributes<HTMLInputElement> = {}) {
   );
 
   return (
-    <S.Root>
-      <S.Input
-        type="text"
-        {...props}
+    <label className={`input w-full ${className}`} {...rest}>
+      <SearchIcon className="searchIcon" color={colors.text.hint} size={22} />
+      <input
+        type="search"
+        className="grow"
+        {...inputProps}
         onChange={handleChange}
         defaultValue={searchParams.get("search") || undefined}
       />
-      <SearchIcon className="searchIcon" color={colors.text.hint} size={28} />
-    </S.Root>
+    </label>
   );
 }
 

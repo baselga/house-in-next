@@ -1,22 +1,20 @@
 import { Book } from "@/db/book/book.type";
-import * as S from "./styled";
-import { colors } from "@/theme/colors.yak";
 import GameIconsBookCover from "../GameIconsBookCover";
 
 function BookCard({ book }: { book: Book }) {
   return (
-    <S.Root>
-      <S.ImageWrapper>
-        <GameIconsBookCover color={colors.primary.main} />
-      </S.ImageWrapper>
-      <S.DataWrapper>
-        <S.Title className="title">{book.title}</S.Title>
-        <div>
-          <S.BookSaga className="sagaBook">{book.sagaBook?.name}</S.BookSaga>
-          <S.Author className="author">{book.author?.name}</S.Author>
+      <article className="bg-base-200 p-4 rounded-sm text-base-content flex flex-wrap gap-4 shadow-sm">
+        <div className="w-full max-w-20">
+          <GameIconsBookCover className="w-full h-auto text-primary" />
         </div>
-      </S.DataWrapper>
-    </S.Root>
+        <div className="flex flex-col gap-2">
+          <h2 className="text-2xl font-bold">{book.title}</h2>
+          <div>
+            <span className="text-xl font-bold">{book.sagaBook?.name}</span>
+            <span className="pl-6 italic">{book.author?.name}</span>
+          </div>
+        </div >
+      </article>
   );
 }
 

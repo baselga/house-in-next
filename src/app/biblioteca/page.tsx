@@ -3,7 +3,6 @@ import Container from "@/ui/desingSystem/Container";
 import BookCard from "./components/BookCard";
 import OrderButton from "./components/OrderButton";
 import SearchInput from "./components/SearchInput";
-import * as S from "./pague.styled";
 
 export default async function LibraryPage(props: {
   searchParams?: Promise<{
@@ -21,15 +20,19 @@ export default async function LibraryPage(props: {
 
   return (
     <Container>
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <S.RoowFilter>
-          <SearchInput placeholder="Buscar..." />
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-4 items-center justify-end">
+          <SearchInput
+            inputProps={{
+              placeholder: "Buscar...",
+            }}
+          />
           <OrderButton />
-        </S.RoowFilter>
+        </div>
 
-        <S.ListBooks>
+        <section className="flex flex-col gap-4">
           {books?.map((book) => <BookCard key={book.id} book={book} />)}
-        </S.ListBooks>
+        </section>
       </div>
     </Container>
   );
