@@ -1,7 +1,15 @@
 import { ReactNode } from "react";
-import * as S from "./styles";
 
-function Container({ children }: { children: ReactNode }) {
-  return <S.Container>{children}</S.Container>;
+type ContainerProps = {
+  children: ReactNode;
+  className?: string;
+} & React.HTMLAttributes<HTMLDivElement>;
+
+function Container({ children, className = "", ...rest }: ContainerProps) {
+  return (
+    <div className={`w-full max-w-7xl px-4 mx-auto ${className}`} {...rest}>
+      {children}
+    </div>
+  );
 }
 export default Container;

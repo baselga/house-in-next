@@ -26,8 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <YakThemeProvider>
-      <html lang="es">
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <html lang="es" data-theme="dim2">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} bg-base-100 text-base-content`}
+        >
           <Header />
           {children}
         </body>

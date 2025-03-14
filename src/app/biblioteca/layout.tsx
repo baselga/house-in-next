@@ -1,5 +1,4 @@
 import Container from "@/ui/desingSystem/Container";
-import * as S from "./layout.styled";
 import NavigationButton from "./components/NavigationButton";
 
 export default function LibraryLayout({
@@ -7,12 +6,12 @@ export default function LibraryLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <S.LayoutHeader>
-        <Container>
-          <h1>Biblioteca</h1>
+      <div className="bg-primary text-primary-content mb-8">
+        <Container className="flex min-h-36 items-center justify-between ">
+          <h1 className="text-4xl font-extrabold">Biblioteca</h1>
           <NavigationButton />
         </Container>
-      </S.LayoutHeader>
+      </div>
       {children}
     </>
   );

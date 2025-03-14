@@ -3,7 +3,6 @@
 import { ArrowLeftIcon, CirclePlusIcon } from "lucide-react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-import * as S from "./styled";
 
 function NavigationButton() {
   const segment = useSelectedLayoutSegment();
@@ -21,20 +20,20 @@ function NavigationButton() {
 
 function AddButton() {
   return (
-    <S.Button>
-      <span>Añadir</span>
+    <button className="btn btn-md flex gap-4 items-center">
+      Añadir
       <CirclePlusIcon size={24} />
-    </S.Button>
+    </button>
   );
 }
 
 function BackButton() {
   return (
-    <S.Button>
-      <span>Volver</span>
+    <button className="btn btn-md flex gap-4 items-center">
+      Volver
       <ArrowLeftIcon size={24} />
-    </S.Button>
-  );
+    </button>
+  )
 }
 
 export default NavigationButton;
