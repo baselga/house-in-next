@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { YakThemeProvider } from "next-yak";
 import { Header } from "@/ui/layout/Header";
+import type { Metadata } from "next";
+import { YakThemeProvider } from "next-yak";
+import { Geist, Geist_Mono } from "next/font/google";
+import { ToastContainer } from 'react-toastify';
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <ToastContainer />
         </body>
       </html>
     </YakThemeProvider>

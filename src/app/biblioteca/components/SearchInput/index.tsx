@@ -1,5 +1,5 @@
 "use client";
-import { colors } from "@/theme/colors.yak";
+
 import { SearchIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
@@ -33,7 +33,7 @@ function SearchInput(props: SearchInputProps = {}) {
 
   return (
     <label className={`input w-full ${className}`} {...rest}>
-      <SearchIcon className="searchIcon" color={colors.text.hint} size={22} />
+      <SearchIcon className="searchIcon" size={22} />
       <input
         type="search"
         className="grow"
