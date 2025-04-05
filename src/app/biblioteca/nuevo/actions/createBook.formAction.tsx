@@ -2,7 +2,7 @@
 
 import { type FormState } from "@/ui/forms/Form/shared/formState";
 import { createBookSchema } from "./createBook.schema";
-import { parseFormServerValidationErrors } from "@/ui/forms/Form/shared/parseFormServerValidationErrors";
+import { parseZodError } from "@/ui/forms/Form/shared/parseZodError";
 
 export async function createBoockFormAction(
   prevSatate: FormState,
@@ -11,10 +11,9 @@ export async function createBoockFormAction(
   const data = Object.fromEntries(formData);
 
   const parsed = createBookSchema.safeParse(data);
-  console.log("Server Action CreateBook", parsed);
 
   if (!parsed.success) {
-    return parseFormServerValidationErrors(parsed.error);
+    return parseZodError(parsed.error);
   }  
 
   // Aquí insertaremos el libro en la base de datos

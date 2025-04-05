@@ -9,8 +9,10 @@ import { createBookSchema } from "../actions/createBook.schema";
 import { CreateButton } from "@/ui/forms/CreateButton";
 import { redirect } from "next/navigation";
 import { useCallback } from "react";
+import { AuthorInput } from "./AuthorInput";
+import { Author } from "@/db/author/author.type";
 
-export const BoockForm = () => {
+export const BoockForm = ({ authors }: { authors: Author[] }) => {
   const onSuccess = useCallback(() => {
     redirect("/biblioteca");
   }, []);
@@ -39,6 +41,7 @@ export const BoockForm = () => {
           placeholder="Introduce el nombre del libro"
         />
         <TextInput source="url" label="Url de la imágen" />
+        <AuthorInput source="authorId" authors={authors} />
       </div>
     </Form>
   );

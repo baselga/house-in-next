@@ -1,6 +1,9 @@
 
-export type FormState = {
+export type FormState<T = undefined> = {
   message?: string;
-  isSuccess: boolean;  
-  issues?: { path: string | number; message: string }[];
+  data?: T | undefined,
+  isSuccess: boolean;
+  error?: {
+    issues?: { path: string | number; message: string }[];
+  }
 };

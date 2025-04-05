@@ -34,6 +34,7 @@ export default function RootLayout({
           <Header />
           {children}
           <ToastContainer />
+          <div id="modals-portal"></div>
         </body>
       </html>
     </YakThemeProvider>

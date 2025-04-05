@@ -5,11 +5,10 @@ import { BoockForm } from "./components/BookForm";
 
 export default async function NewBookPage() {
   const authors = await getAllAuthors();
-  console.log({ authors });
 
   return (
     <Container>
-      <BoockForm />
+      <BoockForm authors={authors} />
     </Container>
   );
 }
