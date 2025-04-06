@@ -6,6 +6,7 @@ import {
   FieldValues,
   FormProvider,
   Path,
+  PathValue,
   useForm,
   UseFormProps,
 } from "react-hook-form";
@@ -15,22 +16,22 @@ import { useNotify } from "@/helpers/useNotify";
 import { FormActionProvider } from "./formActionContext";
 import { type FormState } from "./shared/formState";
 
-const defaultFormState: FormState = {
+const defaultFormState: Omit<FormState, "data"> = {
   isSuccess: false,
 };
 
-type FormProps<k extends FieldValues> = {
+type FormProps<K extends FieldValues, T = undefined> = {
   children: ReactNode | ReactNode[];
   className?: string;
-  action: (state: FormState, data: FormData) => FormState | Promise<FormState>;
+  action: (state: FormState<T>, data: FormData) => FormState<T> | Promise<FormState<T>>;
   schema: ZodSchema;
-  onSuccess?: () => void;
-} & UseFormProps<k>;
+  onSuccess?: (state: FormState<T>) => void;
+} & UseFormProps<K>;
 
-export function Form<k extends FieldValues>(props: FormProps<k>) {
+export function Form<K extends FieldValues, T = undefined>(props: FormProps<K, T>) {
   const { children, className, action, schema, onSuccess, ...rest } = props;
   const notify = useNotify();
-  const methods = useForm<k>({
+  const methods = useForm<K>({
     resolver: zodResolver(schema),
     ...rest,
   });
@@ -39,35 +40,39 @@ export function Form<k extends FieldValues>(props: FormProps<k>) {
     action,
     defaultFormState
   );
-  
 
   useEffect(() => {
-    if (state.issues) {
-      state.issues.forEach((issue) =>
-        methods.setError(issue.path as Path<k>, {
+    if (state.error?.issues) {
+      state.error.issues.forEach((issue) =>
+        methods.setError(issue.path as Path<K>, {
           type: "manual",
           message: issue.message,
         })
       );
     }
-  }, [methods, state.issues]);
+  }, [methods, state.error]);
 
   useEffect(() => {
     if (!isPending) {
-      if (state.isSuccess) {
+      if (state.isSuccess) {        
         notify(
           state.message || "Se han guardado los datos correctamente.",
           "success"
         );
         if (onSuccess) {
-          onSuccess();
+          onSuccess(state);
         }
       } 
       if (!state.isSuccess && state.message)  {
-        notify(state.message, "warning");
+        notify(state.message, "warning");        
+      }
+      if (!state.isSuccess && state.error?.values)  {
+        Object.entries(state.error.values).forEach(([key, value]) => {
+          methods.setValue(key as Path<K>, value as PathValue<K, Path<K>>);
+        });
       }
     }
-  }, [isPending, notify, onSuccess, state.isSuccess, state.message]);
+  }, [isPending, methods, notify, onSuccess, state]);
 
   return (
     <FormProvider {...methods}>
