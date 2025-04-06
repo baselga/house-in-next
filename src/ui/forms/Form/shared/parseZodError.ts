@@ -1,10 +1,15 @@
 import { ZodError } from "zod";
 import { FormState } from "./formState";
 
-export function parseZodError(
+export function parseZodError({
+  zodError,
+  message,
+  values,
+}: {
   zodError: ZodError,
+  values?: Record<string, unknown>
   message?: string
-): FormState {
+}): FormState {  
   return {
     message: message || "Los datos del formulario no son validos",
     error: {
@@ -12,6 +17,7 @@ export function parseZodError(
         path: issue.path[0],
         message: issue.message,
       })),
+      values
     },
     isSuccess: false,
   };

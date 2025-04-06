@@ -6,6 +6,7 @@ import {
   FieldValues,
   FormProvider,
   Path,
+  PathValue,
   useForm,
   UseFormProps,
 } from "react-hook-form";
@@ -63,10 +64,15 @@ export function Form<K extends FieldValues, T = undefined>(props: FormProps<K, T
         }
       } 
       if (!state.isSuccess && state.message)  {
-        notify(state.message, "warning");
+        notify(state.message, "warning");        
+      }
+      if (!state.isSuccess && state.error?.values)  {
+        Object.entries(state.error.values).forEach(([key, value]) => {
+          methods.setValue(key as Path<K>, value as PathValue<K, Path<K>>);
+        });
       }
     }
-  }, [isPending, notify, onSuccess, state]);
+  }, [isPending, methods, notify, onSuccess, state]);
 
   return (
     <FormProvider {...methods}>

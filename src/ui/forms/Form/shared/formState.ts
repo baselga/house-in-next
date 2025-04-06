@@ -5,5 +5,6 @@ export type FormState<T = undefined> = {
   isSuccess: boolean;
   error?: {
     issues?: { path: string | number; message: string }[];
+    values?: Record<string, unknown>;
   }
 };
