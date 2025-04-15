@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
+import { asc, eq } from "drizzle-orm";
 
 import { db } from "..";
 import { Author } from "./author.type";
 import { author } from "./author.schema";
-import { asc, eq } from "drizzle-orm";
 import { ErrorValidation } from "@/utils/ErrorValidation";
 
 export async function getAllAuthors(): Promise<Author[]> {

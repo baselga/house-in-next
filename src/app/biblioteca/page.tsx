@@ -17,7 +17,7 @@ export default async function LibraryPage(props: {
     order: { dir: order, field: "title" },
     search: searchParams?.search,
   });
-
+  console.log(books);
   return (
     <Container>
       <div className="flex flex-col gap-4">

@@ -7,6 +7,7 @@ export const parseErrorValidation = ({
   error: unknown;
   values: Record<string, unknown>;
 }) => {
+  console.error(error)
   if (error instanceof ErrorValidation) {
     return {
       message: error.message,

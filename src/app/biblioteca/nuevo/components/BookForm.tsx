@@ -2,31 +2,42 @@
 
 import { z } from "zod";
 
-import { Form } from "@/ui/forms/Form";
-import { TextInput } from "@/ui/forms/TextInput";
-import { createBoockFormAction } from "../actions/createBook.formAction";
-import { createBookSchema } from "../actions/createBook.schema";
+import type { Author } from "@/db/author/author.type";
+import type { SagaBook } from "@/db/bookSaga/bookSaga.type";
 import { CreateButton } from "@/ui/forms/CreateButton";
+import { Form } from "@/ui/forms/Form";
+import { NumberInput } from "@/ui/forms/NumberInput";
+import { TextInput } from "@/ui/forms/TextInput";
 import { redirect } from "next/navigation";
 import { useCallback } from "react";
+import { createBoockFormAction, type CreateBookRespData } from "../actions/createBook.formAction";
+import { createBookSchema } from "../actions/createBook.schema";
 import { AuthorInput } from "./AuthorInput";
-import { Author } from "@/db/author/author.type";
+import { BookSagaInput } from "./BookSagaInput";
 
-export const BoockForm = ({ authors }: { authors: Author[] }) => {
+const defaultValues = {
+  title: "",
+  url: "",
+}
+
+export const BoockForm = ({
+  authors,
+  bookSagas,
+}: {
+  authors: Author[];
+  bookSagas: SagaBook[];
+}) => {
   const onSuccess = useCallback(() => {
     redirect("/biblioteca");
   }, []);
 
   return (
-    <Form<z.output<typeof createBookSchema>>
+    <Form<z.output<typeof createBookSchema>, CreateBookRespData>
       className="card bg-base-200 w-full px-4 py-4"
       action={createBoockFormAction}
       schema={createBookSchema}
       onSuccess={onSuccess}
-      defaultValues={{
-        title: "",
-        url: "",
-      }}
+      defaultValues={defaultValues}
     >
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Nuevo libro</h2>
@@ -40,8 +51,12 @@ export const BoockForm = ({ authors }: { authors: Author[] }) => {
           required
           placeholder="Introduce el nombre del libro"
         />
-        <TextInput source="url" label="Url de la imágen" />
+        <TextInput source="urlImage" label="Url de la imágen" />
         <AuthorInput source="authorId" authors={authors} />
+        <div className="flex gap-4">
+          <BookSagaInput source="sagaBookId" bookSagas={bookSagas} />
+          <NumberInput source="order" label="Orden" min={1} />
+        </div>
       </div>
     </Form>
   );

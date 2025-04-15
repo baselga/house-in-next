@@ -1,11 +1,22 @@
 import { Book } from "@/db/book/book.type";
 import GameIconsBookCover from "../GameIconsBookCover";
+import Image from "next/image";
 
 function BookCard({ book }: { book: Book }) {
   return (
       <article className="bg-base-200 p-4 rounded-sm text-base-content flex flex-wrap gap-4 shadow-sm">
         <div className="w-full max-w-20">
-          <GameIconsBookCover className="w-full h-auto text-primary" />
+          {book.urlImage ? (
+            <Image 
+              src={book.urlImage}
+              alt={book.title}
+              width={200}
+              height={300}
+              className="rounded-sm" />
+          ) : (
+            <GameIconsBookCover className="w-full h-auto text-primary" />
+          )}
+
         </div>
         <div className="flex flex-col gap-2">
           <h2 className="text-2xl font-bold">{book.title}</h2>

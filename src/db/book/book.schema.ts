@@ -12,11 +12,11 @@ export const book = t.sqliteTable(
       .notNull()
       .references(() => author.id),
     sagaBookId: t
-      .text("saga_book_id", { length: 36 })
-      .notNull()
+      .text("saga_book_id", { length: 36 })      
       .references(() => sagaBook.id),
     title: t.text("title", { length: 255 }).unique().notNull(),
     urlImage: t.text("url_image"),
+    order: t.integer("order"),
   },
   (table) => {
     return [

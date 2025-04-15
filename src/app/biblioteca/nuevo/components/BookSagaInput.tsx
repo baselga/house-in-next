@@ -4,31 +4,34 @@ import { useState } from "react";
 import { useController, useFormContext } from "react-hook-form";
 import { z } from "zod";
 
-import { type Author } from "@/db/author/author.type";
+import { SagaBook } from "@/db/bookSaga/bookSaga.type";
 import useEvent from "@/helpers/useEvent";
 import { Modal } from "@/ui/desingSystem/Modal";
 import { CreateButton } from "@/ui/forms/CreateButton";
 import { Form } from "@/ui/forms/Form";
-import { FormState } from "@/ui/forms/Form/shared/formState";
+import { type FormState } from "@/ui/forms/Form/shared/formState";
 import { TextInput } from "@/ui/forms/TextInput";
-import { createAuthorFormAction, type CreateAuthorRespData } from "../../actions/createAuthor.formAction";
-import { createAuthorSchema } from "../../actions/createAuthor.schema";
+import { createBookSagaFormAction, CreateBookSagaRespData } from "../actions/createBookSaga.formAction";
+import { createBookSagaSchema } from "../actions/createBookSaga.schema";
 
 const defaultValues = {
   name: "",
 };
 
-type AuthorInputProps = {
+type SagaInputProps = {
   source: string;
-  authors: Author[];
+  bookSagas: SagaBook[];
 };
-export const AuthorInput = (props: AuthorInputProps) => {
-  const { source, authors } = props;  
+
+export const BookSagaInput = (props: SagaInputProps) => {
+  const { source, bookSagas } = props;
   const [open, setOpen] = useState(false);
-  const [choices, setChoices] = useState(authors.map((author) => ({
-    value: author.id,
-    name: author.name,
-  })));
+  const [choices, setChoices] = useState(
+    bookSagas.map((bookSaga) => ({
+      value: bookSaga.id,
+      name: bookSaga.name,
+    }))
+  );
 
   const { control } = useFormContext();
 
@@ -36,10 +39,9 @@ export const AuthorInput = (props: AuthorInputProps) => {
     name: source,
     control,
   });
-
-
+  
   const onSuccess = useEvent(
-    ({data}: FormState<CreateAuthorRespData>) => {
+    ({data}: FormState<CreateBookSagaRespData>) => {
       if(data){
         setChoices([...choices, {
           value: data.id,
@@ -58,31 +60,26 @@ export const AuthorInput = (props: AuthorInputProps) => {
   return (
     <>
       <fieldset className="fieldset w-full">
-        <legend className="fieldset-legend">
-          Autor<span className="text-error">{"*"}</span>
-        </legend>
+        <legend className="fieldset-legend">Saga</legend>
         <div className="flex">
           <select
             className="select rounded-r-none w-full"
             defaultValue=""
             {...field}
           >
-            <option disabled></option>
+            <option></option>
             {choices.map((choice) => (
-              <option
-                key={choice.value}
-                value={choice.value}
-              >
+              <option key={choice.value} value={choice.value}>
                 {choice.name}
               </option>
             ))}
-          </select>          
+          </select>
           <button
             type="button"
             className="btn btn-primary rounded-l-none"
             onClick={() => setOpen(true)}
           >
-            Añadir autor
+            Añadir saga
           </button>
         </div>
         <p className="fieldset-label">
@@ -92,18 +89,18 @@ export const AuthorInput = (props: AuthorInputProps) => {
         </p>
       </fieldset>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <Form<z.output<typeof createAuthorSchema>, CreateAuthorRespData>
-          action={createAuthorFormAction}
-          schema={createAuthorSchema}
+        <Form<z.output<typeof createBookSagaSchema>, CreateBookSagaRespData>
+          action={createBookSagaFormAction}
+          schema={createBookSagaSchema}
           defaultValues={defaultValues}
           onSuccess={onSuccess}
         >
-          <h3 className="font-bold text-lg">Nuevo autor</h3>
+          <h3 className="font-bold text-lg">Nueva saga</h3>
           <TextInput
             source="name"
-            label="Nombre"
+            label="Titulo"
             required
-            placeholder="Introduce el nombre del autor"
+            placeholder="Introduce el titulo de la saga"
           />
           <div className="modal-action">
             <CreateButton label="Crear" />

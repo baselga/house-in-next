@@ -23,12 +23,17 @@ const defaultFormState: Omit<FormState, "data"> = {
 type FormProps<K extends FieldValues, T = undefined> = {
   children: ReactNode | ReactNode[];
   className?: string;
-  action: (state: FormState<T>, data: FormData) => FormState<T> | Promise<FormState<T>>;
+  action: (
+    state: FormState<T>,
+    data: FormData
+  ) => FormState<T> | Promise<FormState<T>>;
   schema: ZodSchema;
   onSuccess?: (state: FormState<T>) => void;
 } & UseFormProps<K>;
 
-export function Form<K extends FieldValues, T = undefined>(props: FormProps<K, T>) {
+export function Form<K extends FieldValues, T = undefined>(
+  props: FormProps<K, T>
+) {
   const { children, className, action, schema, onSuccess, ...rest } = props;
   const notify = useNotify();
   const methods = useForm<K>({
@@ -43,6 +48,7 @@ export function Form<K extends FieldValues, T = undefined>(props: FormProps<K, T
 
   useEffect(() => {
     if (state.error?.issues) {
+      methods.clearErrors();
       state.error.issues.forEach((issue) =>
         methods.setError(issue.path as Path<K>, {
           type: "manual",
@@ -54,7 +60,7 @@ export function Form<K extends FieldValues, T = undefined>(props: FormProps<K, T
 
   useEffect(() => {
     if (!isPending) {
-      if (state.isSuccess) {        
+      if (state.isSuccess) {
         notify(
           state.message || "Se han guardado los datos correctamente.",
           "success"
@@ -62,11 +68,11 @@ export function Form<K extends FieldValues, T = undefined>(props: FormProps<K, T
         if (onSuccess) {
           onSuccess(state);
         }
-      } 
-      if (!state.isSuccess && state.message)  {
-        notify(state.message, "warning");        
       }
-      if (!state.isSuccess && state.error?.values)  {
+      if (!state.isSuccess && state.message) {
+        notify(state.message, "warning");
+      }
+      if (!state.isSuccess && state.error?.values) {
         Object.entries(state.error.values).forEach(([key, value]) => {
           methods.setValue(key as Path<K>, value as PathValue<K, Path<K>>);
         });

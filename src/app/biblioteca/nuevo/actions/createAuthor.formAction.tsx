@@ -16,10 +16,9 @@ export async function createAuthorFormAction(
   const data = Object.fromEntries(formData);
 
   const parsed = createAuthorSchema.safeParse(data);
-  console.log("Server Action CreateAuthor", parsed);
 
   if (!parsed.success) {
-    return parseZodError({ zodError: parsed.error, values: parsed.data });
+    return parseZodError({ zodError: parsed.error, values: data });
   }
 
   try {
